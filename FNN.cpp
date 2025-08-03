@@ -362,7 +362,7 @@ int main() {
         // Display the duration of the training time in seconds
 
         cout<< "Training time : " 
-            <<chrono::duration_cast<chrono:milliseconds>(end - start).count() 
+            <<chrono::duration_cast<chrono::milliseconds>(end - start).count() 
             << " ms\n";
     
 
