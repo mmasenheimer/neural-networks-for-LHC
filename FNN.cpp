@@ -8,6 +8,10 @@
 // Help measuring the training time
 // Activation function in the AIEs
 // Efficient activation of calulation functions
+
+#include <fstream>
+#include <sstream>
+#include <string>
 using namespace std;
 
 namespace Activation{
@@ -320,6 +324,46 @@ public:
     }
 };
 
+pair<vector<vector<double>>, vector<vector<double>>> loadCSVData(const string& filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        throw runtime_error("Could not open file: " + filename);
+    }
+    
+    vector<vector<double>> inputs;
+    vector<vector<double>> targets;
+    string line;
+    
+    while (getline(file, line)) {
+        // Skip header line
+        if (line.empty() || line[0] == '#') continue;
+        
+        stringstream ss(line);
+        string cell;
+        vector<double> row;
+        
+    
+        while (getline(ss, cell, ',')) {
+            // Parse CSV line
+            cell.erase(0, cell.find_first_not_of(" \t"));
+            cell.erase(cell.find_last_not_of(" \t") + 1);
+            
+            if (!cell.empty()) {
+                row.push_back(stod(cell));
+            }
+        }
+        
+        if (row.size() >= 3) {
+            inputs.push_back({row[0], row[1]});
+            // x, y coordinates
+            targets.push_back({row[2]});
+            // target value
+        }
+    }
+    
+    file.close();
+    cout << "Loaded " << inputs.size() << " samples from " << filename << endl;
+}
 // **RUNNING AND TESTING/TRAINING THE NETWORK**
 int main() {
     try{
