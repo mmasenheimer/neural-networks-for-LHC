@@ -324,6 +324,7 @@ public:
     }
 };
 
+// This function parses the data about the points from a .csv file
 pair<vector<vector<double>>, vector<vector<double>>> loadCSVData(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
@@ -342,7 +343,6 @@ pair<vector<vector<double>>, vector<vector<double>>> loadCSVData(const string& f
         string cell;
         vector<double> row;
         
-    
         while (getline(ss, cell, ',')) {
             // Parse CSV line
             cell.erase(0, cell.find_first_not_of(" \t"));
@@ -364,6 +364,7 @@ pair<vector<vector<double>>, vector<vector<double>>> loadCSVData(const string& f
     file.close();
     cout << "Loaded " << inputs.size() << " samples from " << filename << endl;
 }
+
 // **RUNNING AND TESTING/TRAINING THE NETWORK**
 int main() {
     try{
