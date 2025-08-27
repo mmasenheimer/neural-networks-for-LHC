@@ -9,6 +9,8 @@
 // Activation function in the AIEs
 // Efficient activation of calulation functions
 
+// TODO look into vitis ai development kit
+
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -410,7 +412,6 @@ int main() {
             <<chrono::duration_cast<chrono::milliseconds>(end - start).count() 
             << " ms\n";
     
-
         vector<vector<double>> testPoints = {
         // Represent different x and y coordinates to 
         // see if the nn can correctly classify
