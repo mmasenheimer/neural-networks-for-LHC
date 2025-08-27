@@ -1,0 +1,15 @@
+[
+  {
+    "directory": "/home/mmasenheimer/AIEWorkspace/template_window_class/_ide/_build",
+    "arguments": [
+      "/tools/Xilinx/Vitis/2024.1/aietools/tps/lnx64/gcc/bin/g++",
+      "-c",
+      "-I/tools/Xilinx/Vitis/2024.1/aietools/include",
+      "-I/home/mmasenheimer/AIEWorkspace/template_window_class",
+      "-I/home/mmasenheimer/AIEWorkspace/template_window_class/src",
+      "-I/tools/Xilinx/Vitis/2024.1/aietools/include",
+      "/home/mmasenheimer/AIEWorkspace/template_window_class/src/graph.cpp"
+    ],
+    "file": "/home/mmasenheimer/AIEWorkspace/template_window_class/src/graph.cpp"
+  }
+]

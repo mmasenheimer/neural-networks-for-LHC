@@ -1,0 +1,15 @@
+{
+  "name": "template_window_class",
+  "type": "AI_ENGINE",
+  "platform": "/tools/Xilinx/Vitis/2024.1/base_platforms/xilinx_vek280_base_202410_1/xilinx_vek280_base_202410_1.xpfm",
+  "configuration": {
+    "componentType": "AI_ENGINE",
+    "aieGraphFiles": [
+      "src/graph.cpp"
+    ],
+    "aieCompilerConfigurations": [],
+    "configFiles": [
+      "aiecompiler.cfg"
+    ]
+  }
+}
