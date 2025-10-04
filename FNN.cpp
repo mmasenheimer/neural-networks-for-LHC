@@ -105,6 +105,17 @@ private:
     // Customizable structure by specifying the number of neurons in each layer
 
 public:
+
+    // Access weights
+    const Matrix& getWeights1() const { return weights1; }
+    const Matrix& getWeights2() const { return weights2; }
+    const Matrix& getWeights3() const { return weights3; }
+
+    // Access biases
+    const vector<double>& getBias1() const { return bias1; }
+    const vector<double>& getBias2() const { return bias2; }
+    const vector<double>& getBias3() const { return bias3; }
+    
     NeuralNetwork(int inputSize, int hidden1Size, int hidden2Size, int outputSize)
     : layerSizes{inputSize, hidden1Size, hidden2Size, outputSize},
         weights1(inputSize, hidden1Size),
@@ -433,10 +444,60 @@ int main() {
                 << ", error: " << abs(output[0] - actual) << ")\n";
             // Print the prediced value along side the actual value
         }
-        
-    }catch(const exception &e) {
+
+    auto &w1 = nn.getWeights1();
+    auto &w2 = nn.getWeights2();
+    auto &w3 = nn.getWeights3();
+
+    auto &b1 = nn.getBias1();
+    auto &b2 = nn.getBias2();
+    auto &b3 = nn.getBias3();
+    // Write weights and biases to file
+ofstream out("nn_weights.txt");
+if (out.is_open()) {
+    out << "# Weights1\n";
+    for (int i = 0; i < w1.getRows(); i++) {
+        for (int j = 0; j < w1.getCols(); j++) {
+            out << w1(i, j) << " ";
+        }
+        out << "\n";
+    }
+
+    out << "# Weights2\n";
+    for (int i = 0; i < w2.getRows(); i++) {
+        for (int j = 0; j < w2.getCols(); j++) {
+            out << w2(i, j) << " ";
+        }
+        out << "\n";
+    }
+
+    out << "# Weights3\n";
+    for (int i = 0; i < w3.getRows(); i++) {
+        for (int j = 0; j < w3.getCols(); j++) {
+            out << w3(i, j) << " ";
+        }
+        out << "\n";
+    }
+
+    out << "# Bias1\n";
+    for (double b : b1) out << b << " ";
+    out << "\n# Bias2\n";
+    for (double b : b2) out << b << " ";
+    out << "\n# Bias3\n";
+    for (double b : b3) out << b << " ";
+    out << "\n";
+
+    out.close();
+
+    cout << "Weights and biases written to nn_weights.txt\n";
+} else {
+    cerr << "ERROR: Could not open output file\n";
+}
+
+}catch(const exception &e) {
         cerr << " ERROR : " << e.what() << endl;
         return 1;
     }
+
     return 0;
 }
