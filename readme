@@ -2,25 +2,25 @@
 
 This repository serves as an archive of functional neural network models designed to run on the **VITIS AI VEK280** engine. The goal is to explore machine learning-driven decision-making for the **Large Hadron Collider (LHC)**.
 
-I'm conducting this research on a remote server, and this repository provides a centralized location to pull the latest compiled models and run experiments efficiently.
+I'm conducting this research on a remote server, and this repository provides a centralized location to pull the latest compiled models and run experiments.
 
-## Included Models
+I also do a 
+
+## Included pretrained models
 
 - **ResNet-50**  
-- **ResNet-18**  
-  Both are compiled into `.xmodel` format and are ready to run using the `resnet_pt` runtime executable.
+- **ResNet-18**
+- **EfficientNet BO** [pytorch]
+- **My own network! (with training data)** [vanilla c++]
 
-- **EfficientNet B0**  
-  A custom model I built in PyTorch. *(Not yet compiled into `.xmodel` format)*
+Resnet models are compiled into `.xmodel` format and are ready to run using the `resnet_pt` runtime executable.
 
 > **Note:** To run any models using the VITIS AI runtime, you must be inside the correct **container** or working from a **VITIS-compatible environment**.
 
 ## Research Objective
 
-The main objective of this project is to develop a **lightweight feedforward neural network** optimized for processing **particle collision data** from the LHC. This model will be:
+The main objective of this project is to develop a **lightweight feedforward neural network** optimized for processing **particle collision data** from the LHC:
+Currently working on deployment of my own mofel to the VEK 280 AI engine!
 
-- Fully quantized and built in C++  
-- Designed to bypass DPU usage  
-- Optimized specifically for deployment on the **VEK280 platform**
 
-All models in this repository are **convolutional neural networks (CNNs)** unless otherwise noted.
+All models in this repository are **convolutional neural networks (CNNs) and Feedforward neural networks (FFNNs)** unless otherwise noted.
