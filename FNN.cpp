@@ -337,7 +337,10 @@ public:
     }
 };
 
-// This function parses the data about the points from a .csv file
+
+// FOR GRAPH PROGRAMMING: ADJUST THIS TO READ IN INPUT DATA WITH KERNELS, NOT IFSTREAM
+
+
 pair<vector<vector<double>>, vector<vector<double>>> loadCSVData(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
