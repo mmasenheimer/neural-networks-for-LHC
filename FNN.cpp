@@ -9,8 +9,6 @@
 // Activation function in the AIEs
 // Efficient activation of calulation functions
 
-// TODO look into vitis ai development kit
-
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -68,31 +66,27 @@ private:
     // Initialize the weights with random values
 
     void initializeWeights() {
-        // Randomly assign weight values to matrices
-        normal_distribution<> dist(0.0, 1.0);
 
-        // He initializing to prevent vanishing gradients or slow convergence
-        double scale1 = sqrt(2.0 / layerSizes[0]);
-        double scale2 = sqrt(2.0 / layerSizes[1]);
-        double scale3 = sqrt(2.0 / layerSizes[2]);
-        // Divide 2 by the # of neurons per layer 
-        // and take sqrt to ensure weights are not too large nor too small
+        // Biases let each neuron shift its activation function left right up or down
+        // Randomly assign weight values to matrices
+
+        uniform_int_distribution<int> dist(-5, 5);
 
         for (int i = 0; i < weights1.getRows(); i++) {
             for (int j = 0; j < weights1.getCols(); j++) {
-                weights1(i, j) = dist(gen) * scale1;
+                weights1(i, j) = dist(gen);
             }
         }
 
         for (int i = 0; i < weights2.getRows(); i++) {
             for (int j = 0; j < weights2.getCols(); j++) {
-                weights2(i, j) = dist(gen) * scale2;
+                weights2(i, j) = dist(gen);
             }
         }
 
         for (int i = 0; i < weights3.getRows(); i++) {
             for (int j = 0; j < weights3.getCols(); j++) {
-                weights3(i, j) = dist(gen) * scale3;
+                weights3(i, j) = dist(gen);
             }
         }
 
@@ -123,10 +117,9 @@ public:
         weights3(hidden2Size, outputSize),
         // Initializes weight matrices for connections between layers
         
-        bias1(hidden1Size), bias2(hidden2Size), bias3(outputSize),
-        gen(random_device{}())
-    
+        bias1(hidden1Size), bias2(hidden2Size), bias3(outputSize)
     {
+
         if (inputSize <= 0 || hidden1Size <= 0 || 
             hidden2Size <= 0 || outputSize <= 0) {
             throw invalid_argument("Layer sizes must be positive");
@@ -297,6 +290,7 @@ public:
                 for (int i = 0; i < layerSizes[2]; i++) {
                     for (int j = 0; j < layerSizes[3]; j++) {
                         weights3(i, j) -= learningRate * outputGradients[j] * hidden2[i];
+                        weights3(i, j) = round(weights3(i, j));
                     }
                 }
 
@@ -307,6 +301,7 @@ public:
                 for (int i = 0; i < layerSizes[1]; i++) {
                     for (int j = 0; j < layerSizes[2]; j++) {
                         weights2(i, j) -= learningRate * hidden2Gradients[j] *  hidden1[i];
+                        weights2(i, j) = round(weights2(i, j));
                     }
                 }
 
@@ -317,6 +312,7 @@ public:
                 for (int i = 0; i < layerSizes[0]; i++) {
                     for (int j = 0; j < layerSizes[1]; j++) {
                         weights1(i, j) -= learningRate * hidden1Gradients[j] * inputs[k][i];
+                        weights1(i, j) = round(weights1(i, j));
                     }
                 }
 
@@ -379,6 +375,8 @@ pair<vector<vector<double>>, vector<vector<double>>> loadCSVData(const string& f
     
     file.close();
     cout << "Loaded " << inputs.size() << " samples from " << filename << endl;
+    return {inputs, targets};
+
 }
 
 // **RUNNING AND TESTING/TRAINING THE NETWORK**
@@ -387,33 +385,15 @@ int main() {
         NeuralNetwork nn(2, 8, 4, 1);
         // 2 Input neurons, 1 hidden layer with 8 neurons, another 
         // hidden with 4 neurons, one output neuron
-        mt19937 gen(random_device{}());
-        // Shuffle training data to improve learning
+        
+        string filename;
+        cout << "Enter CSV filename: ";
+        getline(cin, filename);
 
-        uniform_real_distribution<> dist(-2.0, 2.0);
-        // Chnce of a point being selected is the same across the range
 
-        const int numSamples = 1000;
-
-        vector<vector<double>> inputs(numSamples);
-        // Store the input features for each training example
-        vector<vector<double>> targets(numSamples);
-        // Store the corresponding outputs
-
-        for (int i = 0; i < numSamples; i++) {
-            // For each iteration, we generate a random 
-            // input and its corresponding target value
-            double x = dist(gen);
-            double y = dist(gen);
-            // Between -2.0 and 2.0 for each
-
-            inputs[i] = {x, y};
-
-            double distance = sqrt(x * x + y * y );
-            // Euclidean algorithm to check distance from origin
-
-            targets[i] = {distance < 1.0 ? 1.0 : 0.0};
-        }
+        auto data = loadCSVData(filename);
+        vector<vector<double>> inputs = data.first;
+        vector<vector<double>> targets = data.second;
 
         auto start = chrono::high_resolution_clock::now();
 

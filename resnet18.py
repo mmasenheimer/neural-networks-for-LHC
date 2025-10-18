@@ -104,9 +104,6 @@ net = ResNet18().to(device)
 #define loss funtion & optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9, weight_decay=5e-4)
-Files already downloaded and verified
-Files already downloaded and verified
-#train
 for epoch in range(pre_epoch, EPOCH):
     print('\nEpoch: %d' % (epoch + 1))
     net.train()
