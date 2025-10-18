@@ -4,8 +4,6 @@ This repository serves as an archive of functional neural network models designe
 
 I'm conducting this research on a remote server, and this repository provides a centralized location to pull the latest compiled models and run experiments.
 
-I also do a 
-
 ## Included pretrained models
 
 - **ResNet-50**  
@@ -20,7 +18,7 @@ Resnet models are compiled into `.xmodel` format and are ready to run using the 
 ## Research Objective
 
 The main objective of this project is to develop a **lightweight feedforward neural network** optimized for processing **particle collision data** from the LHC:
-Currently working on deployment of my own mofel to the VEK 280 AI engine!
+Currently working on deployment of my own model to the VEK 280 AI engine!
 
 
 All models in this repository are **convolutional neural networks (CNNs) and Feedforward neural networks (FFNNs)** unless otherwise noted.
