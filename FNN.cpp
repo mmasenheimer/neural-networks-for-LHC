@@ -2,7 +2,6 @@
 #include <vector>
 #include <cmath>
 #include <random>
-// Generate random numbers to initialize the weights
 #include <stdexcept>
 #include <chrono>
 // Help measuring the training time
@@ -483,4 +482,5 @@ if (out.is_open()) {
     }
 
     return 0;
+    // end
 }
