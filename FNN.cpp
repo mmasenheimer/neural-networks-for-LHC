@@ -59,7 +59,7 @@ private:
 
     vector<int> layerSizes;
     Matrix weights1, weights2, weights3;
-    vector<double> bias1, bias2, bias3;
+    vector<int> bias1, bias2, bias3;
 
     mt19937 gen;
     // Initialize the weights with random values
@@ -90,9 +90,9 @@ private:
         }
 
         // The model starts training with no bias
-        fill(bias1.begin(), bias1.end(), 0.0);
-        fill(bias2.begin(), bias2.end(), 0.0);
-        fill(bias3.begin(), bias3.end(), 0.0);
+        fill(bias1.begin(), bias1.end(), 0);
+        fill(bias2.begin(), bias2.end(), 0);
+        fill(bias3.begin(), bias3.end(), 0);
     }
 
     // Customizable structure by specifying the number of neurons in each layer
@@ -105,9 +105,9 @@ public:
     const Matrix& getWeights3() const { return weights3; }
 
     // Access biases
-    const vector<double>& getBias1() const { return bias1; }
-    const vector<double>& getBias2() const { return bias2; }
-    const vector<double>& getBias3() const { return bias3; }
+    const vector<int>& getBias1() const { return bias1; }
+    const vector<int>& getBias2() const { return bias2; }
+    const vector<int>& getBias3() const { return bias3; }
     
     NeuralNetwork(int inputSize, int hidden1Size, int hidden2Size, int outputSize)
     : layerSizes{inputSize, hidden1Size, hidden2Size, outputSize},
@@ -294,7 +294,7 @@ public:
                 }
 
                 for (int j = 0; j < layerSizes[3]; j++) {
-                    bias3[j] -= learningRate * outputGradients[j];
+                    bias3[j] -= round(learningRate * outputGradients[j]);
                 }
 
                 for (int i = 0; i < layerSizes[1]; i++) {
@@ -305,7 +305,7 @@ public:
                 }
 
                 for (int j = 0; j < layerSizes[2]; j++) {
-                    bias2[j] -= learningRate * hidden2Gradients[j];
+                    bias2[j] -= round(learningRate * hidden2Gradients[j]);
                 }
 
                 for (int i = 0; i < layerSizes[0]; i++) {
@@ -316,7 +316,7 @@ public:
                 }
 
                 for (int j = 0; j < layerSizes[1]; j++) {
-                    bias1[j] -= learningRate * hidden1Gradients[j];
+                    bias1[j] -= round(learningRate * hidden1Gradients[j]);
                 }
 
                 // Print out the MSE every 100 epochs, helps 
@@ -397,7 +397,7 @@ int main() {
         auto start = chrono::high_resolution_clock::now();
 
         // Start the training process
-        nn.train(inputs, targets, 0.01, 1000);
+        nn.train(inputs, targets, 1.0, 1000);
         auto end = chrono::high_resolution_clock::now();
         // Display the duration of the training time in seconds
 
@@ -462,11 +462,11 @@ if (out.is_open()) {
     }
 
     out << "# Bias1\n";
-    for (double b : b1) out << b << " ";
+    for (int b : b1) out << b << " ";
     out << "\n# Bias2\n";
-    for (double b : b2) out << b << " ";
+    for (int b : b2) out << b << " ";
     out << "\n# Bias3\n";
-    for (double b : b3) out << b << " ";
+    for (int b : b3) out << b << " ";
     out << "\n";
 
     out.close();
