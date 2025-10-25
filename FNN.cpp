@@ -163,7 +163,6 @@ public:
                 sum += hidden2[i] * weights3(i, j);
         
             }
-
             output[j] = Activation::sigmoid(sum);
         }
 
@@ -365,10 +364,10 @@ pair<vector<vector<double>>, vector<vector<double>>> loadCSVData(const string& f
         }
         
         if (row.size() >= 3) {
-            inputs.push_back({row[0], row[1]});
-            // x, y coordinates
+            int x = static_cast<int>(row[0]);
+            int y = static_cast<int>(row[1]);
+            inputs.push_back({static_cast<double>(x), static_cast<double>(y)});
             targets.push_back({row[2]});
-            // target value
         }
     }
     
@@ -418,7 +417,7 @@ int main() {
 
         for (const auto &point : testPoints) {
             auto output = nn.forward(point);
-            double actual = sqrt(point[0] * point[0] + point[1] * point[1]) < 1.0 ? 1.0 : 0.0;
+            double actual = sqrt(point[0] * point[0] + point[1] * point[1]) < 10.0 ? 1.0 : 0.0;
             // Compute the label for each point
 
             cout << "Point (" << point[0] << ", " << point[1] << ") → " 

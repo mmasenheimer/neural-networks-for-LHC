@@ -3,6 +3,7 @@
   "files.associations": {
     "*.dbclient-js": "javascript",
     "string": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "fstream": "cpp"
   }
 }
