@@ -16,7 +16,7 @@ Resnet models are compiled into `.xmodel` format and are ready to run using the 
 > **Note:** To run any models using the VITIS AI runtime, you must be inside the correct **container** or working from a **VITIS-compatible environment**.
 
 ## Research Objective
-
+ 
 The main objective of this project is to develop a **lightweight feedforward neural network** optimized for processing **particle collision data** from the LHC:
 Currently working on deployment of my own model to the VEK 280 AI engine!
 
